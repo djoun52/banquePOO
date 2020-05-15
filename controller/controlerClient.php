@@ -1,6 +1,6 @@
 <?php
 require_once "Entity.php";
-require_once "../model/UserModel.php";
+require_once "./model/UserModel.php";
 class client extends Entity
 {
     // Properties

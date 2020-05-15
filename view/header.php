@@ -1,0 +1,1 @@
+<h1>Bienvenue sur le site de La Banque française</h1>

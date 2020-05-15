@@ -1,0 +1,3 @@
+15-May-2020 10:21:36 - ERREUR BDD : SQLSTATE[HY000] [1049] Base 'banque' inconnue
+15-May-2020 10:21:55 - ERREUR BDD : SQLSTATE[HY000] [1049] Base 'banque' inconnue
+15-May-2020 10:21:56 - ERREUR BDD : SQLSTATE[HY000] [1049] Base 'banque' inconnue

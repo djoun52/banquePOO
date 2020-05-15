@@ -1,7 +1,7 @@
 <?php
-require_once "../model/UserModel.php";
-require_once "controlerCompts.php";
-require_once "controlerClient.php";
+require_once("./model/UserModel.php");
+require_once("./controller/controlerCompts.php");
+require_once "./controller/controlerClient.php";
 
 class SecurityController
 {
