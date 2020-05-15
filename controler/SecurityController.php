@@ -1,5 +1,7 @@
 <?php
-require_once("model/UserModel.php");
+require_once "../model/UserModel.php";
+require_once "controlerCompts.php";
+require_once "controlerClient.php";
 
 class SecurityController
 {
@@ -30,9 +32,9 @@ class SecurityController
     public function connexion()
     {
         //si on arrive ici avec un formulaire rempli
-        if (!empty($_POST['u_pseudo']) && !empty($_POST['u_password'])) {
+        if (!empty($_POST['u_email']) && !empty($_POST['u_password'])) {
 
-            $pseudo = trim(filter_input(INPUT_POST, 'u_pseudo', FILTER_SANITIZE_URL));
+            $email = trim(filter_input(INPUT_POST, 'u_email', FILTER_SANITIZE_URL));
             $password = filter_input(
                 INPUT_POST,
                 'u_password',
@@ -41,14 +43,14 @@ class SecurityController
             );
 
             //on demande au modèle de nous récupérer un possible utilisateur portant ce nom
-            $result = $this->model->getUsersByEmail($pseudo);
+            $result = $this->model->getUsersByEmail($email);
             //si $result n'est pas false
             if ($result !== false) {
                 if (password_verify($password, $result['password'])) {
                     // var_dump($result);
-                    $_SESSION['user'] = $result;
+                    $_SESSION['user'] = new client($result);
 
-
+                    
                     var_dump($_SESSION['user']);
                     // unset($_SESSION['error_msg']);
                     $_SESSION['error_msg'] = '';
@@ -91,10 +93,11 @@ class SecurityController
     {
 
         $passworconfirm = trim(filter_input(INPUT_POST, 'u_confirmer_password', FILTER_SANITIZE_URL));
-        $pseudo = trim(filter_input(INPUT_POST, 'u_pseudo', FILTER_SANITIZE_URL));
         $email = trim(filter_input(INPUT_POST, 'u_email', FILTER_SANITIZE_URL));
         $prenom = trim(filter_input(INPUT_POST, 'u_prenom', FILTER_SANITIZE_URL));
         $nom = trim(filter_input(INPUT_POST, 'u_nom', FILTER_SANITIZE_URL));
+        $ville = trim(filter_input(INPUT_POST, 'u_ville', FILTER_SANITIZE_URL));
+        $dateDeNaissance = trim(filter_input(INPUT_POST, 'u_dateDeNaissance', FILTER_SANITIZE_URL));
 
         $password = filter_input(
             INPUT_POST,
@@ -102,20 +105,20 @@ class SecurityController
             FILTER_VALIDATE_REGEXP,
             array("options" => array("regexp" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/"))
         );
-        if (!empty($_POST['u_password']) && !empty($_POST['u_confirmer_password']) && !empty($_POST['u_nom']) && !empty($_POST['u_pseudo']) && !empty($_POST['u_pseudo'])) {
+        if (!empty($_POST)) {
             $useremail = $_POST['u_email'];
 
             if (!in_array("", $_POST)) {
                 if (!$this->model->getUsersByEmail($useremail)) {
                     if ($password == true) {
-                        if ($_POST['u_password'] == $_POST['u_confirmer_password']) {
+                        if ($password == $passworconfirm) {
                             $hashage = password_hash($_POST['u_password'], PASSWORD_ARGON2I);
 
 
                             $bytes = random_bytes(255);
                             $secret = password_hash($bytes, PASSWORD_ARGON2I);
 
-                            $this->model->addUser($_POST['u_nom'], $_POST['u_prenom'], $_POST['u_pseudo'],$_POST['u_email'], $hashage, $secret);
+                            $this->model->addUser($nom, $prenom,$email, $hashage,$ville,$dateDeNaissance, $secret);
 
                             $_SESSION['error_msg'] = '';
                             $_SESSION['nbErreurMsg'] = 0;
@@ -153,6 +156,7 @@ class SecurityController
         }
     }
 
+    
     public function deconnexion()
     {
 

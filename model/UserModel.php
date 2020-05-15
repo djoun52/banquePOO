@@ -16,8 +16,8 @@
             //préparation de la requète dans le serveur       
                 $stmt = self::$connexion->prepare($sql);
             //injection des paramètres
-                $pseudo = strtolower($email);
-                $stmt->bindParam("pseudo", $pseudo); // requete vers database
+                $email = strtolower($email);
+                $stmt->bindParam("email", $email); // requete vers database
 
             //execution
             $result = $stmt->fetch();
@@ -31,14 +31,14 @@
             
         }
 
-        public function addUser($nom,$prenom,$pseudo,$email,$password, $secret){
+        public function addUser($nom,$prenom,$email,$password,$ville,$dateDeNaissance, $secret){
             try{
-                $sql = "INSERT INTO users (nom, prenom, pseudo, email, password, secret) VALUES (?,?,?,?,?,?)";
+                $sql = "INSERT INTO users (nom, prenom, email, password,ville,dateDeNaissance, secret) VALUES (?,?,?,?,?,?,?)";
 
             //préparation de la requète dans le serveur       
                 $stmt = self::$connexion->prepare($sql);
             
-                $stmt->execute(array($nom, $prenom, $pseudo,$email, $password,$secret));
+                $stmt->execute(array($nom, $prenom,$email, $password,$ville,$dateDeNaissance, $secret));
             //execution
                 return $stmt->execute();
                 
@@ -49,6 +49,42 @@
             }
             
         }
+        public function addcompt($param){
+            try{
+                $sql = "INSERT INTO compts (libelle, soldeInitial, deviseMonétaire, numero) VALUES (?,?,?,?)";
+
+            //préparation de la requète dans le serveur       
+                $stmt = self::$connexion->prepare($sql);
+                foreach ($param as $key => $value) {
+                    switch ($key) {
+                        case 'libelle':
+                            $libelle=$value;
+                            break;
+                        case 'soldeInitial':
+                            $soldeInitial=$value;
+                            break;
+                        case 'deviseMonétaire':
+                            $deviseMonétaire=$value;
+                            break;
+                        case 'numero':
+                            $numero=$value;
+                            break;
+                        
+                    }
+                }
+                $stmt->execute(array($libelle, $soldeInitial,$deviseMonétaire, $numero));
+            //execution
+                return $stmt->execute();
+                
+            }
+            catch(Exception $e){
+                return $e->getMessage();
+                die();
+            }
+            
+        }
+
+
         public function getUsersBySecret($param){
             try {
                 $sql = 'SELECT * FROM users WHERE secret= :secret';

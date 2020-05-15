@@ -1,0 +1,16 @@
+view
+    page :
+        inscription
+        connexion 
+        welcomeClient
+        welcomeAdmin
+        creationCompt
+        
+
+modele 
+    fonction 
+        crédité 
+        virement 
+
+
+contoler

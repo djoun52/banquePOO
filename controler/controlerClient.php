@@ -1,7 +1,7 @@
 <?php
 require_once "Entity.php";
-
-class Titulaire extends Entity
+require_once "../model/UserModel.php";
+class client extends Entity
 {
     // Properties
     
@@ -60,8 +60,11 @@ class Titulaire extends Entity
         }
 
         public function addCompte($param){
+            
             $s="";
+
             $s.=array_push($this->comptes,$param);
+           
             return $s;
         }
         public function getCompts(){

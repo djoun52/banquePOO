@@ -12,7 +12,7 @@ $arrt1= [
 ];
 
 
-$t1 = new Titulaire($arrt1);// créer le client
+$t1 = new client($arrt1);// créer le client
 
 
 $arrc11= [
@@ -45,7 +45,7 @@ $arrt2= [
     'ville'=>'Lyon'
 ];
 
-$t2 = new Titulaire($arrt2);
+$t2 = new client($arrt2);
 $arrc21= [
     'libelle' => 'compte courent',
     'soldeInitial'=>100,
