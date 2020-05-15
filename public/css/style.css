@@ -1,0 +1,22 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+#wrapper{
+    margin: auto;
+    max-width: 800px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    box-shadow: 0 0 20px #aaa;
+}
+
+
+footer{
+    text-align: center;
+}
